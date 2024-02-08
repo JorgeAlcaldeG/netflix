@@ -1,0 +1,99 @@
+body{
+    background-color: #192428;
+    color: white;
+}
+#LoginContainer{
+    width: 50%;
+    background-color: #414c50;
+    height: auto;
+    margin-top: 7%;
+    margin-left: 25%;
+    padding:2%;
+    padding-top: .5%;
+}
+.colorMain{
+    color:#39ace7;
+}
+.colorSub{
+    color: #0784b5;
+}
+.containerHome{
+    width: 90%;
+    padding-left: 10%;
+    text-align: center;
+}
+.containerAllPelis{
+    width: 90%;
+    padding-left: 22%;
+    text-align: center;
+}
+.frame{
+    border-color: #0784b5;
+    border-style: solid;
+    margin-left: .3%;
+    margin-right: .3%;
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    transition: all .5s ease-out;
+}
+.frame:hover{
+    transition: all .5s ease-out;
+    background-size: 150%;
+    -webkit-box-shadow: inset 0px -30px 6px 0px rgba(57,172,231,1);
+    -moz-box-shadow: inset 0px -30px 6px 0px rgba(57,172,231,1);
+    box-shadow: inset 0px -30px 6px 0px rgba(57,172,231,1);
+}
+.frameTitulo{
+    margin-top:198%;
+    font-weight: bold;
+    transition: all .5s ease-out;
+    color: #00000000;
+}
+.frame:hover>.frameTitulo{
+    transition: all .5s ease-out;
+    color: #000000;
+}
+.frameTituloAll{
+    margin-top:179%;
+    font-weight: bold;
+    transition: all .5s ease-out;
+    color: #00000000; 
+}
+.frame:hover>.frameTituloAll{
+    transition: all .5s ease-out;
+    color: #000000;
+}
+.general{
+    margin-right: 3%;
+    margin-top: 3%;
+}
+#header{
+    margin-top: 0%;
+    height: 10%;
+    background-color: #414c50e1;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+    top: 0%;
+    -webkit-border-bottom-right-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-color: #0784b5;
+    border-style: solid;
+    border-width: 2px;
+}
+#homeMarginTop{
+    height: 12vb;
+
+}
+/* VIEW */
+#viewContainer{
+    background-color: #2d383c;
+    width: 50%;
+    height: 10vh;
+}
