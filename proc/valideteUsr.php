@@ -37,9 +37,6 @@
                     $_SESSION["estado"] = $usrLogin["estado"];
                     $_SESSION["admin"] = $usrLogin["admin"];
                     header("Location: ../index.php");
-                    exit();
-                    header("Location: ../index.php");
-                    exit();
                 }else{
                     header("Location: ../login.php?loginError=true");
                     exit();
