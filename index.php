@@ -60,10 +60,10 @@
                     if(!isset($_SESSION["nom"])){
                         echo '<a href="login.php">Iniciar sesión</a>';
                     }else{
-                        echo"<a href='perfil.php'<p>Hola, $nom</p></a>";
+                        echo"<a href='perfil.php'<p>Hola, $nom</p></a>
+                        <a href='./logout.php'>Cerrar sesión</a>";
                     }
                 ?>
-                <a href="./logout.php">Cerrar sesión</a>
             </div>
         </div>
     </div>

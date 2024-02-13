@@ -3,6 +3,11 @@ btnState.addEventListener("click",()=>{changeBtn();GetCrud()})
 res = document.getElementById("res");
 var titulo = document.getElementById("crudTitulo");
 var likesNum = document.getElementById("likesNum");
+var cerrar = document.getElementById("cerrar");
+var modForm = document.getElementById("modForm");
+cerrar.addEventListener("click",()=>{
+    modForm.style.display = "none";
+})
 function changeBtn(){
     if(btnState.innerText == "Peliculas"){
         btnState.innerText = "Usuarios";
@@ -50,13 +55,13 @@ function GetCrud(){
                         var botones = "";
                         if(item.estado == 1){
                             var estado = "Nuevo";
-                            botones = "<button class='tableBtn'>Aceptar</button><button class='tableBtn ama'>Rechazar</button>";
+                            botones = "<button class='tableBtn' onclick='enable("+item.id_user+")'>Aceptar</button><button class='tableBtn ama' onclick='remove("+item.id_user+")'>Rechazar</button>";
                         }else if (item.estado == 2){
                             var estado = "Deshabilitado";
-                            botones = "<button class='tableBtn'>Habilitar</button><button class='tableBtn ama'>Modificar</button><button class='tableBtn red'>Borrar</button>";
+                            botones = "<button class='tableBtn' onclick='enable("+item.id_user+")'>Habilitar</button><button class='tableBtn ama' onclick='showMod("+item.id_user+")'>Modificar</button><button class='tableBtn red' onclick='remove("+item.id_user+")'>Borrar</button>";
                         }else{
                             var estado = "Activo";
-                            botones = "<button class='tableBtn'>Deshabilitar</button><button class='tableBtn ama'>Modificar</button><button class='tableBtn red'>Borrar</button>";
+                            botones = "<button class='tableBtn'onclick='enable("+item.id_user+")'>Deshabilitar</button><button class='tableBtn ama' onclick='showMod("+item.id_user+")'>Modificar</button><button class='tableBtn red' onclick='remove("+item.id_user+")'>Borrar</button>";
                         }
                         if(item.admin == 0){
                             var tipo = "Usuario"
@@ -87,3 +92,72 @@ function GetCrud(){
     ajax.send(formdata);
 }
 window.onload = GetCrud;
+
+function enable(id){
+    var formdata = new FormData();
+    formdata.append('id', id);
+    var ajax = new XMLHttpRequest();
+    ajax.open('POST', './proc/enableUsr.php');
+    ajax.onload=function(){
+        if(ajax.readyState ==4 && ajax.status==200){
+            console.log(ajax.responseText);
+            Swal.fire({
+                title: `${ajax.responseText}`,
+                icon: "success",
+                toast: true,
+                position: "top-end",
+                timer: 2000,
+                showConfirmButton:false,
+                showCancelButton: false
+              })
+            GetCrud();
+        }
+    }
+    ajax.send(formdata);
+}
+
+function remove(id){
+    Swal.fire({
+        title: "Borrar usuario",
+        text: "Estás seguro de que quieres hacer esta acción?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            var formdata = new FormData();
+            formdata.append('id', id);
+            var ajax = new XMLHttpRequest();
+            ajax.open('POST', './proc/rmUsr.php');
+            ajax.onload=function(){
+                if(ajax.readyState ==4 && ajax.status==200){
+                    console.log(ajax.responseText);
+                    Swal.fire({
+                        title: "Eliminado!",
+                        text: "El usuario ha sido eliminado",
+                        icon: "success"
+                      });
+                    GetCrud();
+                }
+            }
+            ajax.send(formdata);
+        }
+      });
+}
+function showMod(id){
+    modForm.style.display = "block";
+    var formdata = new FormData();
+    formdata.append('id', id);
+    var ajax = new XMLHttpRequest();
+    ajax.open('POST', './proc/getUsrData.php');
+    ajax.onload=function(){
+        if(ajax.readyState ==4 && ajax.status==200){
+            var res = document.getElementById("modFormRes");
+            res.innerHTML = ajax.responseText;
+        }
+    }
+    ajax.send(formdata);
+}

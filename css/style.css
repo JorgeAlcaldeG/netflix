@@ -292,3 +292,16 @@ table {
     background-color: rgb(223, 142, 36);
     border: 1px solid  rgb(223, 142, 36);
 }
+#modForm{
+    position: fixed;
+    width: 30%;
+    height: 50vh;
+    border-radius: 10px;
+    top: 10%;
+    left: 35%;
+    background-color: #2d383c;
+    display: none;
+    padding-left: 9%;
+    padding-right: 5%;
+    padding-top: 2%;
+}
