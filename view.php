@@ -91,7 +91,7 @@ include("./proc/conexion.php");
                 ?>
             </div>
             <div class="col-5">
-                <img src="./resources/frames/<?php echo $id;?>.jpg" id="foto" alt="" srcset="">
+                <img src="./resources/frames/<?php echo $peliDato["miniatura"];?>" id="foto" alt="" srcset="">
             </div>
         </div>
         <a href="./index.php" class="volverBtn">Volver</a>

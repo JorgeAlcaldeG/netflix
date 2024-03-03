@@ -3,7 +3,7 @@
     // var_dump($_SESSION);
     include('./proc/conexion.php');
     // TOP 5
-    $top5 = "SELECT l.peli AS 'id_peli', p.nom_peli, count(l.id_like) AS 'likes' FROM `likes` `l` INNER JOIN peliculas `p` ON l.peli = p.id_peli GROUP BY l.peli ORDER BY likes DESC LIMIT 5;";
+    $top5 = "SELECT l.peli AS 'id_peli', p.nom_peli,p.miniatura, count(l.id_like) AS 'likes' FROM `likes` `l` INNER JOIN peliculas `p` ON l.peli = p.id_peli GROUP BY l.peli ORDER BY likes DESC LIMIT 5;";
     $queryTop = $conn ->prepare($top5);
     $queryTop -> execute();
     $topFilms = $queryTop->fetchAll();
@@ -17,7 +17,6 @@
         // var_dump($usrRes);
         $nom = $usrRes["nombre"];
     }
-    
     $catSQL = "SELECT DISTINCT g.genero AS 'genero', g.id_genero AS 'id_genero' FROM generos `g` INNER JOIN peli_genero `p` ON p.id_gen = g.id_genero";
     $cat = $conn ->prepare($catSQL);
     $cat ->execute();
@@ -31,6 +30,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Pixelify+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
     <title>Cartelera</title>
 </head>
@@ -43,7 +45,7 @@
                     <!-- <p>Buscador</p> -->
                     <input type="text" name="buscar" id="buscar" placeholder="Buscar peliculas">
                     <br>
-                    <select name="cat" id="cat" style="margin-left:50%;">
+                    <select name="cat" id="cat" style="margin-left:20%;">
                         <option value="0">Categoría</option>
                         <?php
                             foreach ($catList as $cat) {
@@ -51,17 +53,17 @@
                             }
                         ?>
                     </select>
-                    <input type="checkbox" name="tieneLike" id="tieneLike">
-                    <label for="tieneLike">Tus favoritos</label>
+                    <!-- <input type="checkbox" name="tieneLike" id="tieneLike"> -->
+                    <!-- <label for="tieneLike">Tus favoritos</label> -->
                 </form>
             </div>
             <div class="col-2">
                 <?php 
                     if(!isset($_SESSION["nom"])){
-                        echo '<a href="login.php">Iniciar sesión</a>';
+                        echo '<a href="login.php" class="menuOpt">Iniciar sesión</a>';
                     }else{
-                        echo"<a href='perfil.php'<p>Hola, $nom</p></a>
-                        <a href='./logout.php'>Cerrar sesión</a>";
+                        echo"<a href='perfil.php'<p class='menuOpt'>Hola, $nom</p></a>
+                        <a href='./logout.php' class='menuOptcancel'>Cerrar sesión</a>";
                     }
                 ?>
             </div>
@@ -74,7 +76,7 @@
         <div class="row">
             <?php
                 foreach ($topFilms as $peli) {
-                    echo '<div class="col frame" style="background-image: url(./resources/frames/'.$peli["id_peli"].'.jpg)" onclick="viewer('.$peli["id_peli"].')">
+                    echo '<div class="col frame" style="background-image: url(./resources/frames/'.$peli["miniatura"].')" onclick="viewer('.$peli["id_peli"].')">
                     <p class="frameTitulo">'.$peli["nom_peli"].'</p>
                     </div>';
                 }

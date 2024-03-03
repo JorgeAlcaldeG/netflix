@@ -79,11 +79,13 @@ function GetCrud(){
                     $datos +=`</table>`;
                     res.innerHTML = $datos;
                 }else{
-                    $datos="<table id='peli'><tr><th>Pelicula</th><th>Año</th><th>Acciones</th></tr>"
+                    $datos="<a href='./AddPeli.php' class='volverBtn'>Añadir peli</a>";
+                    $datos+="<p></p>"
+                    $datos+="<table id='peli'><tr><th>Pelicula</th><th>Año</th><th>Acciones</th></tr>"
                     json.forEach(function(item){
                         $datos+=`<tr><th>${item.nom_peli}</th>
                         <th>${item.año}</th>
-                        <th><button class='tableBtn ama'>Modificar</button><button class='tableBtn red'>Borrar</button></th></tr>`
+                        <th><button class='tableBtn ama'>Modificar</button><button class='tableBtn red' onclick='removePeli("${item.id_peli}")'>Borrar</button></th></tr>`
                     });
                     res.innerHTML = $datos;
                 }
@@ -147,6 +149,40 @@ function remove(id){
         }
       });
 }
+// removePeli
+function removePeli(id){
+    Swal.fire({
+        title: "Borrar peli",
+        text: "Estás seguro de que quieres hacer esta acción?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si",
+        cancelButtonText: "No"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            var formdata = new FormData();
+            formdata.append('id', id);
+            var ajax = new XMLHttpRequest();
+            ajax.open('POST', './proc/rmPeli.php');
+            ajax.onload=function(){
+                if(ajax.readyState ==4 && ajax.status==200){
+                    console.log(ajax.responseText);
+                    if(ajax.responseText == "ok"){
+                        Swal.fire({
+                            title: "Eliminado!",
+                            text: "La peli ha sido eliminada",
+                            icon: "success"
+                          });
+                        GetCrud();
+                    }
+                }
+            }
+            ajax.send(formdata);
+        }
+      });
+}
 function showMod(id){
     modForm.style.display = "block";
     var formdata = new FormData();
@@ -157,6 +193,42 @@ function showMod(id){
         if(ajax.readyState ==4 && ajax.status==200){
             var res = document.getElementById("modFormRes");
             res.innerHTML = ajax.responseText;
+        }
+    }
+    ajax.send(formdata);
+}
+
+function updateUsr(){
+    var id = document.getElementById("id_user").value;
+    var usr = document.getElementById("usr").value;
+    var nom= document.getElementById("nom").value;
+    var ape = document.getElementById("ape").value;
+    var pwd = document.getElementById("pwd").value;
+    var admin = document.getElementById("admin").checked;
+    var formdata = new FormData();
+    formdata.append('id', id);
+    formdata.append('usr',usr);
+    formdata.append('nom',nom);
+    formdata.append('ape',ape);
+    formdata.append('pwd',pwd);
+    formdata.append('admin',admin);
+    var ajax = new XMLHttpRequest();
+    ajax.open('POST', './proc/updateUsr.php');
+    ajax.onload=function(){
+        if(ajax.readyState ==4 && ajax.status==200){
+            console.log(ajax.responseText);
+            if(ajax.responseText == "ok"){
+                Swal.fire({
+                    title: `usuario actualizado`,
+                    icon: "success",
+                    toast: true,
+                    position: "top-end",
+                    timer: 2000,
+                    showConfirmButton:false,
+                    showCancelButton: false
+                  })
+                GetCrud()
+            }
         }
     }
     ajax.send(formdata);

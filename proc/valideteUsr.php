@@ -1,5 +1,5 @@
 <?php
-    var_dump($_POST);
+    // var_dump($_POST);
     $error = "";
     if(!isset($_POST)){
         header('Location: ../'); // Redirige a la página de inicio de sesión
@@ -30,15 +30,20 @@
             $query -> execute();
             $usrLogin = $query->fetch();
             if($query -> rowCount() == 1){
-                if(password_verify($pwd, $usrLogin["pwd"])){
-                    session_start();
-                    $_SESSION["id"] = $usrLogin["id_user"];
-                    $_SESSION["nom"] = $usrLogin["user"];
-                    $_SESSION["estado"] = $usrLogin["estado"];
-                    $_SESSION["admin"] = $usrLogin["admin"];
-                    header("Location: ../index.php");
+                if($usrLogin["estado"] == 3){
+                    if(password_verify($pwd, $usrLogin["pwd"])){
+                        session_start();
+                        $_SESSION["id"] = $usrLogin["id_user"];
+                        $_SESSION["nom"] = $usrLogin["user"];
+                        $_SESSION["estado"] = $usrLogin["estado"];
+                        $_SESSION["admin"] = $usrLogin["admin"];
+                        header("Location: ../index.php");
+                    }else{
+                        header("Location: ../login.php?loginError=true");
+                        exit();
+                    }
                 }else{
-                    header("Location: ../login.php?loginError=true");
+                    header("Location: ../login.php?loginError2=true");
                     exit();
                 }
             }else{

@@ -29,7 +29,8 @@ function validateLogin(){
     return validar;
 }
 function validarCampo(input,error){
-    if(document.getElementById(input).innerText == ""){
+
+    if(document.getElementById(input).value == ""){
         document.getElementById(error).innerText = "El campo es obligatorio"
     }
 }

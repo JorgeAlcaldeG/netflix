@@ -6,9 +6,10 @@ $queryUsr->bindParam(":id",$_POST["id"]);
 $queryUsr -> execute();
 $usrRes = $queryUsr->fetch();
 echo '<h2>Editar '.$usrRes["nombre"].'</h2>
+<input type="hidden" name="id" id="id_user" value="'.$usrRes["id_user"].'">
 <label for="usr">Usuario</label>
 </br>
-<input type="text" name="usr" id="usr" value="'.$usrRes["id_user"].'">
+<input type="text" name="usr" id="usr" value="'.$usrRes["user"].'">
 </br>
 <label for="nom">Nombre</label>
 </br>
@@ -22,6 +23,14 @@ echo '<h2>Editar '.$usrRes["nombre"].'</h2>
 </br>
 <input type="text" name="pwd" id="pwd" value="">
 </br>
+<label for="admin">admin</label>';
+if($usrRes["admin"] == 1){
+    echo '<input type="checkbox" id="admin" name="admin" checked>';
+}else{
+    echo '<input type="checkbox" id="admin" name="admin">';
+}
+echo'
 </br>
-<button type="submit" class="tableBtn" style="margin-left:13%">Modificar</button>';
+</br>
+<button type="submit" class="tableBtn" onclick="updateUsr()" style="margin-left:13%">Modificar</button>';
 ?>

@@ -3,13 +3,13 @@
     // $nextPeli="SELECT `id_peli`,`nom_peli` FROM peliculas LIMIT 5,1000;";
     // var_dump($_POST);
     $src = $_POST["src"];
-    $sqlFilms = "SELECT nom_peli, id_peli FROM peliculas";
+    $sqlFilms = "SELECT nom_peli, id_peli,miniatura FROM peliculas";
     if($src != ""){
         $src .= "%";
         $sqlFilms .=" WHERE nom_peli like :src";
     }else{
         // TODAS LAS PELIS
-        $sqlFilms="SELECT `id_peli`,`nom_peli` FROM peliculas";
+        $sqlFilms="SELECT `id_peli`,`nom_peli`,miniatura FROM peliculas";
     }
     $stmt = $conn -> prepare($sqlFilms);
     if($src != ""){
@@ -30,10 +30,10 @@
                 // echo $stmt->rowCount();
                 if($stmt->rowCount() == 1){
                     $numPelis++;
-                    echo'<div class="col-3 frame general" style="background-image: url(./resources/frames/'.$film["id_peli"].'.jpg)" onclick="viewer('.$film["id_peli"].')"><p class="frameTituloAll">'.$film["nom_peli"].'</p></div>'; 
+                    echo'<div class="col-3 frame general" style="background-image: url(./resources/frames/'.$film["miniatura"].')" onclick="viewer('.$film["id_peli"].')"><p class="frameTituloAll">'.$film["nom_peli"].'</p></div>'; 
                 }
             }else{
-                echo'<div class="col-3 frame general" style="background-image: url(./resources/frames/'.$film["id_peli"].'.jpg)" onclick="viewer('.$film["id_peli"].')"><p class="frameTituloAll">'.$film["nom_peli"].'</p></div>'; 
+                echo'<div class="col-3 frame general" style="background-image: url(./resources/frames/'.$film["miniatura"].')" onclick="viewer('.$film["id_peli"].')"><p class="frameTituloAll">'.$film["nom_peli"].'</p></div>'; 
             }
         }
         if($_POST["gen"]!=0 && $numPelis ==0){

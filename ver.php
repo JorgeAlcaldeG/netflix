@@ -35,7 +35,7 @@
 <body>
     <h1 id="centrarTitulo"><?php echo $peliDato["nom_peli"]; ?></h1>
     <video width="640" height="480" controls id="player">
-    <source src="./resources/video/<?php echo $id; ?>.mp4" type="video/mp4">
+    <source src="./resources/video/<?php echo $peliDato["video"]; ?>" type="video/mp4">
     Your browser does not support the video tag.
     </video> 
     <br>
