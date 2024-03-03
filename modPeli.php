@@ -10,6 +10,18 @@
     $stmt = $conn ->prepare($SqlPais);
     $stmt->execute();
     $paises = $stmt->fetchAll();
+
+    $id = $_GET["id"];
+    $sql ="SELECT * FROM peliculas WHERE id_peli = :id LIMIT 1";
+    $stmt = $conn ->prepare($sql);
+    $stmt -> bindParam(":id", $id);
+    $stmt->execute();
+    $peli = $stmt->fetch();
+    $sql ="SELECT * FROM peli_genero WHERE id_peli = :id LIMIT 1";
+    $stmt = $conn ->prepare($sql);
+    $stmt -> bindParam(":id", $id);
+    $stmt->execute();
+    $cat = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,37 +37,36 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Crear peli</h1>
+    <h1>Modificar peli <?php echo $peli["nom_peli"];?></h1>
     <a href="./perfilAdmin.php" class="volverBtn">Volver</a>
     <br>
     <br>
     <hr>
-    <form action="./proc/AddPeli.php" method="post" class="formPeli" enctype='multipart/form-data'>
+    <form action="./proc/ModPeli.php" method="post" class="formPeli" enctype='multipart/form-data'>
+        <input type="hidden" name="id" value="<?php echo $peli["id_peli"]; ?>">
+        <input type="hidden" name="vid" value="<?php echo $peli["video"]; ?>">
+        <input type="hidden" name="min" value="<?php echo $peli["miniatura"]; ?>">
         <div class="fila">
             <div class="col2">
                 <label for="nom">Nombre de la peli</label>
                 <br>
-                <input class="inputForms" type="text" name="nom" id="nom" value="<?php if(isset($_GET["nom"])){echo $_GET["nom"];} ?>">
+                <input class="inputForms" type="text" name="nom" id="nom" value="<?php echo $peli["nom_peli"]; ?>">
                 <p id="nomError"> <?php if(isset($_GET["nomVacio"])){echo "Campo obligatorio";} ?></p>
                 <label for="time">Duración</label>
                 <br>
-                <input class="inputForms2" type="number" name="time" id="time" value="<?php if(isset($_GET["time"])){echo $_GET["time"];} ?>">
+                <input class="inputForms2" type="number" name="time" id="time" value="<?php echo $peli["duracion"]; ?>">
                 <p id="timeError"><?php if(isset($_GET["timeVacio"])){echo "Campo obligatorio";} ?></p>
                 <label for="year">Año</label>
                 <br>
-                <input class="inputForms2" type="number" name="year" id="year" value="<?php if(isset($_GET["year"])){echo $_GET["year"];} ?>">
+                <input class="inputForms2" type="number" name="year" id="year" value="<?php echo $peli["año"]; ?>">
                 <p id="yearError"><?php if(isset($_GET["yearVacio"])){echo "Campo obligatorio";} ?></p>
                 <label for="pais">País</label>
                 <br>
                 <select name="pais" id="pais">
                     <?php
                         foreach ($paises as $pais) {
-                            if(isset($_GET["pais"])){
-                                if($pais["id_pais"] == $_GET["pais"]){
-                                    echo"<option value='".$pais["id_pais"]."' selected>".$pais["pais"]."</option>";
-                                }else{
-                                    echo"<option value='".$pais["id_pais"]."'>".$pais["pais"]."</option>";
-                                }
+                            if($peli["pais"] == $pais["id_pais"]){
+                                echo"<option value='".$pais["id_pais"]."' selected>".$pais["pais"]."</option>";
                             }else{
                                 echo"<option value='".$pais["id_pais"]."'>".$pais["pais"]."</option>";
                             }
@@ -75,7 +86,7 @@
                 <p id="catError"><?php if(isset($_GET["catVacio"])){echo "Campo obligatorio";} ?></p>
                 <label for="nom">Sinopsis</label>
                 <br>
-                <textarea name="sinopsis" id="sinopsis" class="sinopsisForm"><?php if(isset($_GET["sin"])){echo $_GET["sin"];} ?></textarea>
+                <textarea name="sinopsis" id="sinopsis" class="sinopsisForm"><?php echo $peli["sinopsis"]?></textarea>
                 <p id="sinError"><?php if(isset($_GET["sinopsisVacio"])){echo "Campo obligatorio";} ?></p>
             <br>
             </div>
@@ -92,7 +103,6 @@
                 <div class="col frame2" id="preview" style="background-image: url(./resources/frames/preview.jpg);width:40%">
                 <p class="frameTitulo2" id="titulo">test</p>
                 </div>
-                <p id="mediaError"><?php if(isset($_GET["vidVacio"]) || isset($_GET["minVacio"])){echo "Campo obligatorio";} ?></p>
             </div>
         </div>
         <button class="tableBtn" type="submit">Enviar</button>

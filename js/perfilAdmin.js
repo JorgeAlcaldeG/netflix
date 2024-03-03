@@ -85,7 +85,7 @@ function GetCrud(){
                     json.forEach(function(item){
                         $datos+=`<tr><th>${item.nom_peli}</th>
                         <th>${item.año}</th>
-                        <th><button class='tableBtn ama'>Modificar</button><button class='tableBtn red' onclick='removePeli("${item.id_peli}")'>Borrar</button></th></tr>`
+                        <th><a href="./modPeli.php?id=${item.id_peli}" class='tableBtn ama'>Modificar</a><button class='tableBtn red' onclick='removePeli("${item.id_peli}")'>Borrar</button></th></tr>`
                     });
                     res.innerHTML = $datos;
                 }
