@@ -1,55 +1,61 @@
 <?php
 var_dump($_POST);
 $error="";
+$data="";
 if(!isset($_POST)){
     header('Location: ../');
     exit();
 }
 if(isset($_POST["nom"])){
     $nom=$_POST["nom"];
+    $data.="nom=".$nom."&";
     if($nom == ""){
         $error .= "nomVacio=true&";
     }
 }
 if(isset($_POST["year"])){
     $year=$_POST["year"];
+    $data.="year=".$year."&";
     if($year==""){
         $error .= "yearVacio=true&";
     }
 }
 if(isset($_POST["time"])){
     $time=$_POST["time"];
+    $data.="time=".$time."&";
     if($time==""){
         $error .= "timeVacio=true&";
     }
 }
 if(isset($_POST["pais"])){
     $pais=$_POST["pais"];
+    $data.="pais=".$pais."&";
     if($pais==""){
         $error .= "paisVacio=true&";
     }
 }
 if(isset($_POST["cat"])){
     $cat = $_POST["cat"];
-    echo count($cat);
-    if(count($cat)==0){
-        $error .= "catVacio=true&";
-    }
+}else{
+    $error .= "catVacio=true&";
 }
 if(isset($_POST["sinopsis"])){
     $sinopsis=$_POST["sinopsis"];
+    $data.="sin=".$sinopsis."& ";
     if($sinopsis ==""){
         $error .= "sinopsisVacio=true&";
     }
 }
-if(!isset($_FILES['miniatura'])){
+if($_FILES['miniatura']["name"]==""){
     $error .= "minVacio=true&";
 }
-if(!isset($_FILES['video'])){
+if($_FILES['video']["name"]==""){
     $error .= "vidVacio=true&";
 }
+// var_dump($_FILES);
+// die();
 if($error !=""){
-    header('Location: ../AddPeli.php?'.$error);
+    header('Location: ../AddPeli.php?'.$error.$data);
     exit();
 }
 include("conexion.php");
@@ -64,7 +70,7 @@ if($query -> rowCount() == 1){
 }
 // Subimos miniatura y peli
 $info = pathinfo($_FILES['miniatura']['name']);
-$ext = $info['extension']; // get the extension of the file
+$ext = $info['extension'];
 $fecha = date("Y-m-dH-i-s");
 $nameFile = $fecha.".".$ext; 
 $target = '../resources/frames/'.$nameFile;
@@ -106,5 +112,4 @@ try {
     echo "Error en la conexión con la base de datos: " . $e->getMessage();
     die();
 }
-
 ?>

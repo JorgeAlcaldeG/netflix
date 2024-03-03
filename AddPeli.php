@@ -26,32 +26,43 @@
 </head>
 <body>
     <h1>Crear peli</h1>
+    <a href="./perfilAdmin.php" class="volverBtn">Volver</a>
+    <br>
+    <br>
     <hr>
     <form action="./proc/AddPeli.php" method="post" class="formPeli" enctype='multipart/form-data'>
         <div class="fila">
             <div class="col2">
                 <label for="nom">Nombre de la peli</label>
                 <br>
-                <input class="inputForms" type="text" name="nom" id="nom">
-                <br>
+                <input class="inputForms" type="text" name="nom" id="nom" value="<?php if(isset($_GET["nom"])){echo $_GET["nom"];} ?>">
+                <p id="nomError"> <?php if(isset($_GET["nomVacio"])){echo "Campo obligatorio";} ?></p>
                 <label for="time">Duración</label>
                 <br>
-                <input class="inputForms2" type="number" name="time" id="time">
-                <br>
+                <input class="inputForms2" type="number" name="time" id="time" value="<?php if(isset($_GET["time"])){echo $_GET["time"];} ?>">
+                <p id="timeError"><?php if(isset($_GET["timeVacio"])){echo "Campo obligatorio";} ?></p>
                 <label for="year">Año</label>
                 <br>
-                <input class="inputForms2" type="number" name="year" id="year">
-                <br>
+                <input class="inputForms2" type="number" name="year" id="year" value="<?php if(isset($_GET["year"])){echo $_GET["year"];} ?>">
+                <p id="yearError"><?php if(isset($_GET["yearVacio"])){echo "Campo obligatorio";} ?></p>
                 <label for="pais">País</label>
                 <br>
                 <select name="pais" id="pais">
                     <?php
                         foreach ($paises as $pais) {
-                            echo"<option value='".$pais["id_pais"]."'>".$pais["pais"]."</option>";
+                            if(isset($_GET["pais"])){
+                                if($pais["id_pais"] == $_GET["pais"]){
+                                    echo"<option value='".$pais["id_pais"]."' selected>".$pais["pais"]."</option>";
+                                }else{
+                                    echo"<option value='".$pais["id_pais"]."'>".$pais["pais"]."</option>";
+                                }
+                            }else{
+                                echo"<option value='".$pais["id_pais"]."'>".$pais["pais"]."</option>";
+                            }
                         }
                     ?>
                 </select>
-                <br>
+                <p id="paisError"><?php if(isset($_GET["paisVacio"])){echo "Campo obligatorio";} ?></p>
                 <fieldset>
                     <legend>Categorías</legend>
                     <?php
@@ -61,9 +72,11 @@
                             }
                             ?>
                 </fieldset>
+                <p id="catError"><?php if(isset($_GET["catVacio"])){echo "Campo obligatorio";} ?></p>
                 <label for="nom">Sinopsis</label>
                 <br>
-                <textarea name="sinopsis" id="sinopsis" class="sinopsisForm"></textarea>
+                <textarea name="sinopsis" id="sinopsis" class="sinopsisForm"><?php if(isset($_GET["sin"])){echo $_GET["sin"];} ?></textarea>
+                <p id="sinError"><?php if(isset($_GET["sinopsisVacio"])){echo "Campo obligatorio";} ?></p>
             <br>
             </div>
             <div class="col2">
@@ -79,6 +92,7 @@
                 <div class="col frame2" id="preview" style="background-image: url(./resources/frames/preview.jpg);width:40%">
                 <p class="frameTitulo2" id="titulo">test</p>
                 </div>
+                <p id="mediaError"><?php if(isset($_GET["vidVacio"]) || isset($_GET["minVacio"])){echo "Campo obligatorio";} ?></p>
             </div>
         </div>
         <button type="submit">Enviar</button>
