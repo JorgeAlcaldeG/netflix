@@ -1,5 +1,5 @@
 # Netflix style streaming website
-This project was made in my school days, for this reason thera are a a lot of things that today I would do different. This web allow the users to watch films.
+This project was developed during my academic studies. It simulates a streaming platform where users can browse and watch films.
 
 ## Technology used
 
@@ -12,8 +12,8 @@ This project was made in my school days, for this reason thera are a a lot of th
 At that time I used php for everything, in front and backend, leaving js only to give dynamism to the website.
 Now I could use js vanilla/react for the frontend and php only for DB managements like user's login, or resources management.
 ## What I learnt?
-  - Pratice in web deveopment
-  - Uploading and file management
+  - Practice in web development.
+  - Uploading and file management.
 ## Features
   - Search by name or / and genre.
   - Sections of the website that can be visited without the need to log in.
@@ -32,6 +32,9 @@ And all log users have states:
   - Active users (can log in and watch movies)
   - Disabled (can't login)
 * All of those satus can be changed with admin privileges.*
+  
+**Disclaimer:**  
+This project was created for educational purposes only. All movie posters used belong to their respective copyright holders and are used here as placeholders to simulate a real-world streaming interface. No commercial use is intended.
 ## Screenshots
 ### Sections whithout login (visitor)
 #### Main page
